@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { formValueSelector } from 'redux-form';
 import Button from '@material-ui/core/Button';
 import ThumbUp from '@material-ui/icons/ThumbUp';
 import { useTranslate, useMutation } from 'react-admin';
@@ -57,11 +55,6 @@ const AcceptButton = ({ record }) => {
 
 AcceptButton.propTypes = {
     record: PropTypes.object,
-    comment: PropTypes.string,
 };
 
-const selector = formValueSelector('record-form');
-
-export default connect(state => ({
-    comment: selector(state, 'comment'),
-}))(AcceptButton);
+export default AcceptButton;
