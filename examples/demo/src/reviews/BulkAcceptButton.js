@@ -1,31 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ThumbUp from '@material-ui/icons/ThumbUp';
-import { Button, useUpdateMany } from 'react-admin';
-
-const options = {
-    undoable: true,
-    onSuccess: {
-        notification: {
-            body: 'resources.reviews.notification.approved_success',
-            level: 'info',
-        },
-        redirectTo: '/reviews',
-    },
-    onFailure: {
-        notification: {
-            body: 'resources.reviews.notification.approved_error',
-            level: 'warning',
-        },
-    },
-};
+import { Button, useUpdateMany, useNotify, useRedirect } from 'react-admin';
 
 const BulkAcceptButton = ({ selectedIds }) => {
+    const notify = useNotify();
+    const redirectTo = useRedirect();
+
     const [approve, { loading }] = useUpdateMany(
         'reviews',
         selectedIds,
         { status: 'accepted' },
-        options
+        {
+            undoable: true,
+            onSuccess: () => {
+                notify(
+                    'resources.reviews.notification.approved_success',
+                    'info'
+                );
+                redirectTo('/reviews');
+            },
+            onFailure: () => {
+                notify(
+                    'resources.reviews.notification.approved_error',
+                    'warning'
+                );
+            },
+        }
     );
 
     return (
