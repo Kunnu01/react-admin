@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ThumbDown from '@material-ui/icons/ThumbDown';
-import { Button, useMutation, UPDATE_MANY } from 'react-admin';
+import { Button, useUpdateMany } from 'react-admin';
 
 const options = {
     undoable: true,
@@ -20,12 +20,10 @@ const options = {
     },
 };
 const BulkRejectButton = ({ selectedIds }) => {
-    const [reject, { loading }] = useMutation(
-        {
-            type: UPDATE_MANY,
-            resource: 'reviews',
-            payload: { ids: selectedIds, data: { status: 'rejected' } },
-        },
+    const [reject, { loading }] = useUpdateMany(
+        'reviews',
+        selectedIds,
+        { status: 'rejected' },
         options
     );
 
